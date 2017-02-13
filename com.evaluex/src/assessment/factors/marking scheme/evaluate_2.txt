@@ -1,0 +1,3 @@
+step 1 : expand (x+y)**2
+step 2 : substitute values , marks = 1
+step 3 : subject (x+y)**2 , marks = 1

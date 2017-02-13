@@ -1,0 +1,3 @@
+right answer , marks = 2
+expansion , marks = 1
+one factor , makrs = 1
