@@ -20,7 +20,7 @@ class Simplifya:
 
         filein.close()
 
-        with open('answers/simplifya_1_1.txt') as filein:
+        with open('answers/simplifya_1_3.txt') as filein:
             answer = "".join(line.rstrip() for line in filein)
 
         filein.close()
@@ -53,7 +53,11 @@ class Simplifya:
             marks = listms[1]
             print("Correct \nMarks = " + marks)
         else:
-            print("Incorrect\nMarks = " + str(marks))
+            if simplify(sympify(answer)+sympify(expression)) == 0:
+                print("Answer is negated")
+                print("Incorrect\nMarks = " + str(marks))
+            else:
+                print("Incorrect\nMarks = " + str(marks))
 
         print("-----------------------------------------------")
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rubric>
+	<type>FactorsQuestion</type>
+	<sectionid>1</sectionid>
+	<question id="q01" totalMarks="3">
+		<sub_question id="q01-b" totalMarks="2" isProof="true">
+			<mark_set id="1">
+				<data required="true" isFinal="false" marks="2" noofrightans="2" noofwrongans="0">
+				</data>
+				<data required="true" isFinal="false" marks="1" noofrightans="2" noofwrongans="1">
+				</data>
+				<data required="true" isFinal="false" marks="1" noofrightans="1" noofwrongans="0">
+				</data>
+			</mark_set>
+		</sub_question>
+	</question>
+</rubric>

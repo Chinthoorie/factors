@@ -1,0 +1,15 @@
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <msup>
+   <mi>x</mi>
+   <mn>2</mn>
+  </msup>
+  <mo>+</mo>
+  <mrow>
+   <mn>3</mn>
+   <mi>x</mi>
+  </mrow>
+  <mo>-</mo>
+  <mn>2</mn>
+ </mrow>
+</math>

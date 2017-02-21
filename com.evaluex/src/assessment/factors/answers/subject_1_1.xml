@@ -1,0 +1,24 @@
+<?xml version='1.0'?>
+<math xmlns='http://www.w3.org/1998/Math/MathML'>
+  <mrow>
+    <mi>x</mi>
+    <mo>=</mo>
+    <mfrac>
+      <mrow>
+        <msup>
+          <mi>v</mi>
+          <mn>2</mn>
+        </msup>
+        <mo>-</mo>
+        <msup>
+          <mi>u</mi>
+          <mn>2</mn>
+        </msup>
+      </mrow>
+      <mrow>
+       <mn>2</mn>
+       <mi>a</mi>
+      </mrow>
+    </mfrac>
+  </mrow>
+</math>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rubric>
+	<type>FactorsQuestion</type>
+	<sectionid>1</sectionid>
+	<question id="q01" totalMarks="1">
+		<sub_question id="q01-a" totalMarks="1" isProof="true">
+			<mark_set id="1">
+				<data required="true" isFinal="false" marks="1" concept="simplification" expression="4*a + 3*b - 2*a">
+				</data>
+				<data required="true" isFinal="false" marks="1" concept="multiplication">
+				</data>
+				<data required="true" isFinal="false" marks="1" concept="subtraction">
+				</data>
+			</mark_set>
+		</sub_question>
+	</question>
+</rubric>
