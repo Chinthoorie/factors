@@ -1,1 +1,2 @@
 right answer , marks = 2
+partial answer , marks = 1

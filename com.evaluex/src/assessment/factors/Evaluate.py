@@ -9,7 +9,7 @@ import re
 class Evaluate:
     def solve(self):
 
-        with open('questions/evaluate_1.txt') as filein:
+        with open('questions/evaluate_3.txt') as filein:
             data = "\n".join(line.rstrip() for line in filein)
 
         filein.close()
@@ -19,11 +19,11 @@ class Evaluate:
 
 
 
-        with open('answers/evaluate_1_3.txt') as filein:
+        with open('answers/evaluate_3_1.txt') as filein:
             answer = "\n".join(line.rstrip() for line in filein)
 
         filein.close()
-        with open('marking scheme/evaluate_1.txt') as filein:
+        with open('marking scheme/evaluate_4.txt') as filein:
             ms = "\n".join(line.rstrip() for line in filein)
 
         filein.close()
@@ -32,7 +32,7 @@ class Evaluate:
         listnames = ""
 
         listques = data.replace(" ","").split("\n")
-        print(listques)
+        # print(listques)
 
         listms = ms.split("\n")
         # print(listms)
@@ -72,20 +72,77 @@ class Evaluate:
             exp3 = step3[1].replace(" ", "")
 
         #generate the answer on the own
-        # listgenans = exp2
+        listgenans = []
+        listgenansconcept = []
+
 
         # if operation1 == "expansion":
         #     listgenans.append(expand(sympify(exp1+"**2")))
-        print(listques[0])
-        listques0 = listques[0].split("=")
-        print("("+listques0[0]+")**2 = ("+listques0[1]+")**2")
-        print(str(expand(sympify("(" + listques0[0] + ")**2"))) + " = (" + listques0[1] + ")**2")
-        print(str(expand(sympify("("+listques0[0]+")**2")))+" = "+str(expand(sympify("("+listques0[1]+")**2"))))
-        print(str(listques[1]) + " = " + str(expand(sympify("("+listques0[1]+")**2")))+" - "+ str(simplify(sympify ( (expand(sympify("("+str(listques0[0])+")**2")))+"-"+str(listques[1])))))
-        print(str(listques[1])+" = "+str(solve(sympify(str(expand(sympify("("+listques0[0]+")**2")))+" - "+str(expand(sympify("("+listques0[1]+")**2")))),listques[1])).replace("[","").replace("]",""))
+        # print(listques[0])
+        # listques0 = listques[0].split("=")
+        # print("("+listques0[0]+")**2 = ("+listques0[1]+")**2")
+        # print(str(expand(sympify("(" + listques0[0] + ")**2"))) + " = (" + listques0[1] + ")**2")
+        # print(str(expand(sympify("("+listques0[0]+")**2")))+" = "+str(expand(sympify("("+listques0[1]+")**2"))))
+        # print(str(listques[1]) + " = "+ str(expand(sympify("("+listques0[1]+")**2")))+"-(" +str(simplify(sympify(str((expand(sympify("("+str(listques0[0]).replace(" ","")+")**2"))))+"-("+str(listques[1])+")")))+")")
+        # print(str(listques[1]) + " = " + str(simplify(sympify(str(expand(sympify("(" + listques0[1] + ")**2"))) + "-(" + str(simplify(
+        #     sympify(str((expand(sympify("(" + str(listques0[0]).replace(" ", "") + ")**2")))) + "-(" + str(
+        #         listques[1]) + ")"))) + ")"))))
+
+        if operation1.find("square") != -1 :
+            listgenans.append(listques[0])
+            listgenansconcept.append("data")
+            listques0 = listques[0].split("=")
+            listgenans.append("("+listques0[0]+")**2=("+listques0[1]+")**2")
+            listgenansconcept.append("square")
+            listgenans.append(str(expand(sympify("(" + listques0[0] + ")**2"))).replace(" ", "") + "=(" + listques0[1] + ")**2")
+            listgenansconcept.append("expansion")
+            listgenans.append(str(expand(sympify("("+listques0[0]+")**2"))).replace(" ", "")+"="+str(expand(sympify("("+listques0[1]+")**2"))))
+            listgenansconcept.append("expansion")
+            listgenans.append(str(listques[1]) + "="+ str(expand(sympify("("+listques0[1]+")**2")))+"-(" +str(simplify(sympify(str((expand(sympify("("+str(listques0[0]).replace(" ","")+")**2"))))+"-("+str(listques[1])+")")))+")")
+            listgenansconcept.append("subject")
+            listgenans.append(str(listques[1]) + "=" + str(simplify(sympify(str(expand(sympify("(" + listques0[1] + ")**2"))) + "-(" + str(simplify(
+                sympify(str((expand(sympify("(" + str(listques0[0]).replace(" ", "") + ")**2")))) + "-(" + str(
+                    listques[1]) + ")"))) + ")"))))
+            listgenansconcept.append("subject")
+        # elif operation1.find("square") != -1 :
 
 
+        # print(listgenans)
 
+        listgenanslhs = [None] * len(listgenans)
+        listgenansrhs = [None] * len(listgenans)
+        # listgenansconcept = [None] * len(listgenans)
+
+        i = 0
+
+        for x in listgenans:
+            ans = x.replace(" ", "").split("=", 1)
+            listgenanslhs[i] = ans[0]
+            listgenansrhs[i] = ans[1]
+            i = i + 1
+
+        linearrdata = [[[] for i in range(len(listgenans))] for j in range(len(listgenans))]
+
+        for i in range(0, len(listgenanslhs) - 1):
+            if simplify(expand(sympify(listgenanslhs[i]))) == simplify(expand(sympify(listgenanslhs[i + 1]))):
+                # print(listlhs[i]+" = "+listlhs[i+1])
+                if simplify(expand(sympify(listgenansrhs[i]))) == simplify(expand(sympify(listgenansrhs[i + 1]))):
+                    # print(listrhs[i]+" = "+listrhs[i+1])
+                    print("line " + str(i + 1) + " is equal to line " + str(i + 2))
+                    linearrdata[i][i + 1] = linearrdata[i + 1][i] = str(1)
+                    # print(linearr)
+                    # else:
+                    # print(listlhs[i] + " !=  " + listlhs[i + 1])
+
+        for i in range(0, len(listgenans)):
+            for j in range(0, len(listgenans)):
+                print(linearrdata[i][j], end=" ")
+            print()
+
+        print(listgenans)
+        print(listgenanslhs)
+        print(listgenansrhs)
+        print(listgenansconcept)
 
 
         expansion = expand(sympify(exp1))
@@ -95,7 +152,7 @@ class Evaluate:
         print("Student answer : \n" + answer + "\n")
         print("-----------------------------------------------")
 
-        listans = answer.split("\n")
+        listans = answer.replace(" ","").split("\n")
         listlhs = [None]*len(listans)
         listrhs = [None]*len(listans)
 
@@ -127,13 +184,14 @@ class Evaluate:
 
 
         for i in range(0,len(listlhs)-1):
-            if simplify(expand(sympify(listlhs[i]))) == simplify(expand(sympify(listlhs[i+1]))):
-                # print(listlhs[i]+" = "+listlhs[i+1])
-                if simplify(expand(sympify(listrhs[i]))) == simplify(expand(sympify(listrhs[i+1]))):
-                    # print(listrhs[i]+" = "+listrhs[i+1])
-                    print("line "+str(i+1)+" is equal to line "+str(i+2))
-                    linearr[i][i+1] = linearr[i+1][i] = str(1)
-                    # print(linearr)
+            for j in range(0, len(listlhs) - 1):
+                if simplify(expand(sympify(listlhs[i]))) == simplify(expand(sympify(listlhs[j]))):
+                    # print(listlhs[i]+" = "+listlhs[i+1])
+                    if simplify(expand(sympify(listrhs[i]))) == simplify(expand(sympify(listrhs[j]))):
+                        # print(listrhs[i]+" = "+listrhs[i+1])
+                        print("line "+str(i+1)+" is equal to line "+str(j+1))
+                        linearr[i][j] = linearr[j][i] = str(1)
+                        # print(linearr)
             # else:
                 # print(listlhs[i] + " !=  " + listlhs[i + 1])
 
@@ -141,6 +199,7 @@ class Evaluate:
             for j in range(0, len(listans)):
                 print(linearr[i][j],end=" ")
             print()
+
 
 
 
