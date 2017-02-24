@@ -19,7 +19,7 @@ class Evaluate:
 
 
 
-        with open('answers/evaluate_3_1.txt') as filein:
+        with open('answers/evaluate_1_3.txt') as filein:
             answer = "\n".join(line.rstrip() for line in filein)
 
         filein.close()
@@ -123,16 +123,20 @@ class Evaluate:
 
         linearrdata = [[[] for i in range(len(listgenans))] for j in range(len(listgenans))]
 
-        for i in range(0, len(listgenanslhs) - 1):
-            if simplify(expand(sympify(listgenanslhs[i]))) == simplify(expand(sympify(listgenanslhs[i + 1]))):
-                # print(listlhs[i]+" = "+listlhs[i+1])
-                if simplify(expand(sympify(listgenansrhs[i]))) == simplify(expand(sympify(listgenansrhs[i + 1]))):
-                    # print(listrhs[i]+" = "+listrhs[i+1])
-                    print("line " + str(i + 1) + " is equal to line " + str(i + 2))
-                    linearrdata[i][i + 1] = linearrdata[i + 1][i] = str(1)
-                    # print(linearr)
-                    # else:
-                    # print(listlhs[i] + " !=  " + listlhs[i + 1])
+        for i in range(0, len(listgenanslhs) ):
+            for j in range(0, len(listgenanslhs) ):
+                if simplify(expand(sympify(listgenanslhs[i]))) == simplify(expand(sympify(listgenanslhs[j]))):
+                    # print(listlhs[i]+" = "+listlhs[i+1])
+                    if simplify(expand(sympify(listgenansrhs[i]))) == simplify(expand(sympify(listgenansrhs[j]))):
+                        # print(listrhs[i]+" = "+listrhs[i+1])
+                        print("line " + str(i + 1) + " is equal to line " + str(j + 1))
+                        linearrdata[i][j] = linearrdata[j][i] = str(1)
+                    else:
+                        linearrdata[i][j] = linearrdata[j][i] = str(0)
+                else:
+                    linearrdata[i][j] = linearrdata[j][i] = str(0)
+
+
 
         for i in range(0, len(listgenans)):
             for j in range(0, len(listgenans)):
@@ -183,8 +187,8 @@ class Evaluate:
         # linearr = [[] for _ in range(len(listans))]
 
 
-        for i in range(0,len(listlhs)-1):
-            for j in range(0, len(listlhs) - 1):
+        for i in range(0,len(listlhs)):
+            for j in range(0, len(listlhs)):
                 if simplify(expand(sympify(listlhs[i]))) == simplify(expand(sympify(listlhs[j]))):
                     # print(listlhs[i]+" = "+listlhs[i+1])
                     if simplify(expand(sympify(listrhs[i]))) == simplify(expand(sympify(listrhs[j]))):
@@ -192,6 +196,10 @@ class Evaluate:
                         print("line "+str(i+1)+" is equal to line "+str(j+1))
                         linearr[i][j] = linearr[j][i] = str(1)
                         # print(linearr)
+                    else :
+                        linearr[i][j] = linearr[j][i] = str(0)
+                else:
+                    linearr[i][j] = linearr[j][i] = str(0)
             # else:
                 # print(listlhs[i] + " !=  " + listlhs[i + 1])
 

@@ -16,7 +16,7 @@ class Subject:
     isStepIncorrect = false
     incorrectStepNum = 0
     def get(self):
-        with open('questions/subject_1.txt') as filein:
+        with open('questions/subject_2.txt') as filein:
             data = "".join(line.rstrip() for line in filein)
 
         filein.close()
@@ -24,7 +24,7 @@ class Subject:
         # listq = data.split(",")
         # answer = input("Change " + listq[1] + " the subject of " + listq[0] + "\n")
 
-        with open('answers/subject_1_6.txt') as filein:
+        with open('answers/subject_2_2.txt') as filein:
             answer = "\n".join(line.rstrip() for line in filein)
 
         filein.close()
@@ -116,6 +116,10 @@ def solveQ(data,answer,ms,linenum):
         anslhs = answers[0].replace(" ", "")
         ansrhs = answers[1].replace(" ", "")
 
+        wronganswer = ""
+
+        coeffanslhs = sympify(str(listequ[0] + "-(" + listequ[1] + ")")).coeff(sympify(anslhs))
+
         if isStepIncorrect == true :
             # print("Correct the error in line "+ str(incorrectStepNum) +" to get full marks")
             print("This line is not marked due to the error in line "+str(incorrectStepNum)+"\nMarks = 0")
@@ -175,15 +179,18 @@ def solveQ(data,answer,ms,linenum):
         #
 
         # print(solve(listequ[1]+"-"+listequ[0],stlhs))
-        elif simplify(sympify(listequ[0]+"-("+listequ[1]+")")) == simplify(sympify(str(anslhs+"-("+ansrhs+")").replace(" ",""))) and sympify(str(solve(listequ[0]+"-("+listequ[1]+")",anslhs)).replace("[", "").replace("]", "")) == sympify(ansrhs):
+        elif sympify(str(solve(listequ[0]+"-("+listequ[1]+")",anslhs)).replace("[", "").replace("]", "")) == sympify(ansrhs):
                         # sympify(str(solve(listequ[0]+"-("+listequ[1]+")",anslhs)).replace("[", "").replace("]", "")) == sympify(ansrhs):
             # print(isPartiallyCorrect)
-            if isPartiallyCorrect == false:
-                marks = marks2
+            if simplify(sympify(listequ[0]+"-("+listequ[1]+")")) == simplify(sympify(str(anslhs+"-("+ansrhs+")").replace(" ","")))*coeffanslhs :
+                if isPartiallyCorrect == false:
+                    marks = marks2
+                else:
+                    print("Already provided the marks for partial correctness in earlier steps")
+                print("Partially correct \nMarks = " +str(marks))
+                isPartiallyCorrect = true
             else:
-                print("Already provided the marks for partial correctness in earlier steps")
-            print("Partially correct \nMarks = " +str(marks))
-            isPartiallyCorrect = true
+                wronganswer = answer
 
             # if sympify(ansrhs) == sympify(
             #         str(solve(listequ[1] + "-(" + listequ[0] + ")", stlhs)).replace("[", "").replace("]", "")):
@@ -194,6 +201,18 @@ def solveQ(data,answer,ms,linenum):
             if isStepIncorrect == false:
                 incorrectStepNum = linenum + 1
             isStepIncorrect = true
+
+        if wronganswer != "":
+            if sympify(str(solve(listequ[0]+"-("+listequ[1]+")",anslhs)).replace("[", "").replace("]", "")) == sympify(ansrhs):
+                if isPartiallyCorrect == false:
+                    marks = marks2
+                else:
+                    print("Already provided the marks for partial correctness in earlier steps")
+                print("Partially correct \nMarks = " + str(marks))
+                isPartiallyCorrect = true
+
+
+        # print(sympify(str(listequ[0]+"-("+listequ[1]+")")).coeff(sympify(anslhs)))
 
 
         return int(marks)

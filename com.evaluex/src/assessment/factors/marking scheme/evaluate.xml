@@ -5,9 +5,9 @@
 	<question id="q01" totalMarks="3">
 		<sub_question id="q01-b" totalMarks="2" isProof="true">
 			<mark_set id="1">
-				<data required="true" isFinal="false" marks="0" concept="square" expression="x/y + y/x">
+				<data required="optional" isFinal="false" marks="0" concept="square" expression="x/y + y/x">
 				</data>
-				<data required="true" isFinal="false" marks="1" concept="substitution" values="(x/y) + (y/x) = 3">
+				<data required="optional" isFinal="false" marks="1" concept="substitution" values="(x/y) + (y/x) = 3">
 				</data>
 				<data required="true" isFinal="false" marks="1" concept="subject" expression="(x/y)**2 + (y/x)**2">
 				</data>
