@@ -441,7 +441,10 @@ def solve(data,answer,ms,linenum):
 
             if wronganswer != "":
                 if sympify(wronganswer) == sympify(data):
-                    print("No useful simplification has been done")
+                    if sympify(wronganswer,evaluate=False) == sympify(data) :
+                        print("Data")
+                    else:
+                        print("No useful simplification has been done")
                     wronganswer =""
 
             if wronganswer != "":
@@ -463,7 +466,10 @@ def solve(data,answer,ms,linenum):
 
         if wronganswer != "" and check == 2:
             if sympify(wronganswer) == sympify(data):
-                print("No useful simplification has been done")
+                if len(str(sympify(wronganswer, evaluate=False)).replace(" ","")) == len(str(sympify(data)).replace(" ","")):
+                    print("Data")
+                else:
+                    print("No useful simplification has been done")
                 wronganswer = ""
 
         # print(totmarks)
