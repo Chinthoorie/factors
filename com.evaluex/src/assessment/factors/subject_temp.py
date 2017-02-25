@@ -16,7 +16,7 @@ class Subject:
     isStepIncorrect = false
     incorrectStepNum = 0
     def get(self):
-        with open('questions/subject_2.txt') as filein:
+        with open('questions/subject_1.txt') as filein:
             data = "".join(line.rstrip() for line in filein)
 
         filein.close()
@@ -24,7 +24,7 @@ class Subject:
         # listq = data.split(",")
         # answer = input("Change " + listq[1] + " the subject of " + listq[0] + "\n")
 
-        with open('answers/subject_2_2.txt') as filein:
+        with open('answers/subject_1_3.txt') as filein:
             answer = "\n".join(line.rstrip() for line in filein)
 
         filein.close()

@@ -9,16 +9,24 @@ import re
 class Factorize:
 
     totmarks = 0
+    isPartiallyCorrect = false
+    isFinalAnswerCorrect = false
+    isStepIncorrect = false
+    incorrectStepNum = 0
+    isLastStep = false
+    lines = 0
+
+
     def get(self):
 
-        with open('questions/factorization_2.txt') as filein:
+        with open('questions/factorization_1.txt') as filein:
             data = "\n".join(line.rstrip() for line in filein)
 
         filein.close()
 
         # answer = input("Find the factors of " + data + "\n")
 
-        with open('answers/factorization_2_6.txt') as filein:
+        with open('answers/factorization_1_6.txt') as filein:
             answer = "\n".join(line.rstrip() for line in filein)
 
         filein.close()
@@ -33,6 +41,19 @@ class Factorize:
         print("-----------------------------------------------")
 
         marks = 0;
+        global totmarks
+        global isPartiallyCorrect
+        global isFinalAnswerCorrect
+        global isStepIncorrect
+        global incorrectStepNum
+        global isLastStep
+        global lines
+        isPartiallyCorrect = false
+        isFinalAnswerCorrect = false
+        isStepIncorrect = false
+        incorrectStepNum = 0
+        isLastStep = false
+        lines = 0
         wronganswer = ""
 
         # listms = ms.split("\n")
@@ -54,6 +75,7 @@ class Factorize:
         marks2 = listms2[1].replace(" ", "")
 
         listans = answer.replace(" ", "").split("\n")
+        lines  = len(listans)
         # print(listans)
         # linearr = [[[] for i in range(len(listans))] for j in range(len(listans))]
         # linearr = [[] for _ in range(len(listans))]
@@ -83,7 +105,7 @@ class Factorize:
         #     print(tot)
 
         # totmarks = 0
-        global totmarks
+
         totmarks =0
         for line in listans:
             gotmarks = solve(data,line,ms,listans.index(line))
@@ -97,6 +119,13 @@ class Factorize:
 def solve(data,answer,ms,linenum):
 
         print("\nline "+str(linenum+1)+" :")
+
+        global isPartiallyCorrect
+        global isFinalAnswerCorrect
+        global isStepIncorrect
+        global incorrectStepNum
+        global isLastStep
+        global lines
 
         marks = 0;
         wronganswer = ""
@@ -142,12 +171,20 @@ def solve(data,answer,ms,linenum):
         # if re.fullmatch("[^0-9]?[0-9]?[a-z][-/+]?[0-9]?[a-z][^0-9]?[,][^0-9]?[0-9]?[a-z]?[-/+]?[0-9]?[a-z][^0-9]",answer):
         #     print(answer)
 
-        if answer.find(',') != -1:
+
+        if isStepIncorrect == true:
+            print("This line is not marked due to the error in line " + str(incorrectStepNum) + "\nMarks = 0")
+        elif answer.find(',') != -1:
             #  x-2,x+5
             if answer.find('(') == -1:
                 if sympify(str(answer.split(",")).replace(" ","").replace("','", ")*(").replace("['","(").replace("']",")")) == factor(sympify(listq[0])):
                     marks = int(marks1) - totmarks
-                    print("Correct \nMarks = " + str(marks))
+                    if isFinalAnswerCorrect == false:
+                        marks = int(marks1) - totmarks
+                    else:
+                        print("Already provided the marks for the final answer in earlier steps")
+                    print("Final answer is correct \nMarks = " + str(marks))
+                    isFinalAnswerCorrect = true
                     wronganswer = ""
 
                 else :
@@ -156,8 +193,12 @@ def solve(data,answer,ms,linenum):
             # (x-2),(x+5)
             else :
                 if sympify(answer.replace(",", "*").replace("'","")) == factor(sympify(data)):
-                    marks = int(marks1) - totmarks
-                    print("Correct \nMarks = " + str(marks))
+                    if isFinalAnswerCorrect == false:
+                        marks = int(marks1) - totmarks
+                    else:
+                        print("Already provided the marks for the final answer in earlier steps")
+                    print("Final answer is correct \nMarks = " + str(marks))
+                    isFinalAnswerCorrect = true
                     wronganswer = ""
                 else:
                     wronganswer = answer
@@ -165,10 +206,14 @@ def solve(data,answer,ms,linenum):
         # (x-2)*(x+5)
         elif answer.find('*') != -1:
             if sympify(answer.replace(" ", "")) ==  factor(sympify(data)):
-                marks = int(marks1)-totmarks
-                print("Correct \nMarks = " + str(marks))
+                if isFinalAnswerCorrect == false:
+                    marks = int(marks1) - totmarks
+                else:
+                    print("Already provided the marks for the final answer in earlier steps")
+                print("Final answer is correct \nMarks = " + str(marks))
+                isFinalAnswerCorrect = true
                 wronganswer = ""
-            elif sympify(answer.replace(" ", "")) == sympify(data):
+            elif simplify(expand(sympify(answer.replace(" ", "")))) == sympify(data):
                 wronganswer = answer
             else:
                 wronganswer = answer
@@ -176,8 +221,12 @@ def solve(data,answer,ms,linenum):
         # (x-2)(x+5)
         elif answer.find(')(') != -1:
             if sympify(answer.replace(" ", "").replace(")(",")*(")) == factor(sympify(data)):
-                marks = int(marks1) - totmarks
-                print("Correct \nMarks = " + str(marks))
+                if isFinalAnswerCorrect == false:
+                    marks = int(marks1) - totmarks
+                else:
+                    print("Already provided the marks for the final answer in earlier steps")
+                print("Final answer is correct \nMarks = " + str(marks))
+                isFinalAnswerCorrect = true
                 wronganswer = ""
             else:
                 wronganswer = answer
@@ -185,8 +234,12 @@ def solve(data,answer,ms,linenum):
         # x(x-2)
         elif answer.replace(" ", "").endswith(')'):
             if sympify(answer.replace(" ", "").replace("(", "*(")) == factor(sympify(data)):
-                marks = int(marks1) - totmarks
-                print("Correct \nMarks = " + str(marks))
+                if isFinalAnswerCorrect == false:
+                    marks = int(marks1) - totmarks
+                else:
+                    print("Already provided the marks for the final answer in earlier steps")
+                print("Final answer is correct \nMarks = " + str(marks))
+                isFinalAnswerCorrect = true
                 wronganswer = ""
             else:
                 wronganswer = answer
@@ -194,8 +247,12 @@ def solve(data,answer,ms,linenum):
         # (x-2)x
         elif answer.replace(" ", "").startswith('('):
             if sympify(answer.replace(" ", "").replace(")", ")*")) == factor(sympify(data)):
-                marks = int(marks1) - totmarks
-                print("Correct \nMarks = " + str(marks))
+                if isFinalAnswerCorrect == false:
+                    marks = int(marks1) - totmarks
+                else:
+                    print("Already provided the marks for the final answer in earlier steps")
+                print("Final answer is correct \nMarks = " + str(marks))
+                isFinalAnswerCorrect = true
                 wronganswer = ""
             else:
                 wronganswer = answer
@@ -203,6 +260,9 @@ def solve(data,answer,ms,linenum):
         #     if line 1 is the data
         else:
             print("Incorrect\nMarks = " + str(marks))
+            if isStepIncorrect == false:
+                incorrectStepNum = linenum + 1
+            isStepIncorrect = true
             wronganswer = ""
 
         # answerb = "x**2+5*x-2*x-10"
@@ -212,7 +272,16 @@ def solve(data,answer,ms,linenum):
 
         check = 0
 
+        if simplify(expand(sympify(answer.replace(" ", "")))) != sympify(data) :
+            if isStepIncorrect == false:
+                incorrectStepNum = linenum + 1
+            isStepIncorrect = true
+            print("The written expression is wrong " + "\nMarks = 0")
+            wronganswer = ""
+
+
         if wronganswer != "":
+
             # check = 1
             if answer.find("(") != -1 :
                 check == 1
@@ -228,15 +297,26 @@ def solve(data,answer,ms,linenum):
                     # print(g)
                     if listq.__contains__(str(g)):
                         # print(g)
-                        marks = marks2
+                        if isPartiallyCorrect == false:
+                            marks = marks2
+                        else:
+                            print("Already provided the marks for partial correctness in earlier steps")
                         print(
                             "Answer is in a partially factorized form. It should be fully factorized to get full marks.")
                         print("Partially correct \nMarks = " + str(marks))
+                        isPartiallyCorrect = true
                         wronganswer = ""
                     elif answer.find(ele.replace(" ", "")) != -1:
-                        print("Partial factorization is incomplete. It should be fully factorized to get full marks.")
-                        print("Incorrect\nMarks = " + str(marks))
-                        wronganswer = ""
+                        if linenum + 1 == lines :
+                            print("Partial factorization is incomplete. It should be fully factorized to get full marks.")
+                            print("Incorrect\nMarks = " + str(marks))
+                            if isStepIncorrect == false:
+                                incorrectStepNum = linenum + 1
+                            isStepIncorrect = true
+                            wronganswer = ""
+                        else :
+                            print("Partial factorization is incomplete.\nMarks "+str(marks))
+                            wronganswer = ""
                     # print("true")
                     # if simplify(expand(sympify(answer))) == simplify(sympify(data.replace(" ",""))):
                     #     marks = marks2
@@ -245,14 +325,21 @@ def solve(data,answer,ms,linenum):
                     else:
                         print("Partial factorization is wrong.")
                         print("Incorrect\nMarks = " + str(marks))
+                        if isStepIncorrect == false:
+                            incorrectStepNum = linenum + 1
+                        isStepIncorrect = true
                         wronganswer = ""
                 else :
                     wronganswer = answer
                     check = 0
 
+        lista = []
+        if wronganswer != "" :
+            lista = wronganswer.replace("+", " +").replace("-", " -").split(" ")
+            if len(lista) != 4 :
+                check = 2
 
-
-        if wronganswer != "" and check ==0 :
+        if wronganswer != "" and check ==0 and len(lista) == 4:
             answerb = wronganswer
 
             lista = answerb.replace("+", " +").replace("-", " -").split(" ")
@@ -261,9 +348,9 @@ def solve(data,answer,ms,linenum):
             listq = str(factor(sympify(data))).replace("(", "").replace(")", "").split("*")
             # print(listq)
 
-            if listq[0].find("-") == -1:
+            if listq[0].find("+") != -1:
                 listqf = listq[0].replace("'","").replace(" ","").split("+")
-            elif listq[0].find("+") == -1:
+            elif listq[0].find("-") != -1:
                 listqf = listq[0].replace("'", "").replace(" ","").split("-")
 
             # print(listqf)
@@ -317,10 +404,23 @@ def solve(data,answer,ms,linenum):
 
             if c.find('*') != -1:
                 if sympify(c.replace(" ", "")) == factor(sympify(data)):
-                    marks = marks2
-                    print("Answer is in an expanded form. It should be fully factorized to get full marks")
-                    print("Partially correct \nMarks = " + str(marks))
-                    wronganswer = ""
+                    listdata = data.replace(" ","").replace("+", " +").replace("-", " -").split(" ")
+                    countele = 0
+                    for x in lista:
+                        if listdata.__contains__(str(x)):
+                            countele = countele + 1
+
+                    if countele == len(listdata):
+                        wronganswer = answer
+                    else :
+                        if isPartiallyCorrect == false:
+                            marks = marks2
+                        else:
+                            print("Already provided the marks for partial correctness in earlier steps")
+                        print("Answer is in an expanded form. It should be fully factorized to get full marks")
+                        print("Partially correct \nMarks = " + str(marks))
+                        isPartiallyCorrect = true
+                        wronganswer = ""
                 else:
                     wronganswer = answer
 
@@ -341,7 +441,7 @@ def solve(data,answer,ms,linenum):
 
             if wronganswer != "":
                 if sympify(wronganswer) == sympify(data):
-                    print("data")
+                    print("No useful simplification has been done")
                     wronganswer =""
 
             if wronganswer != "":
@@ -352,11 +452,19 @@ def solve(data,answer,ms,linenum):
                         if simplify(sympify(lista[index]) + sympify(remainder)) == 0:
                             print("Sign of "+str(remainder).replace("-","+")+" is negated \n")
                             print("Incorrect\nMarks = " + str(marks))
+                            if isStepIncorrect == false:
+                                incorrectStepNum = linenum + 1
+                            isStepIncorrect = true
                             wronganswer = ""
                         else:
                             wronganswer = answer
                     else:
                         wronganswer = answer
+
+        if wronganswer != "" and check == 2:
+            if sympify(wronganswer) == sympify(data):
+                print("No useful simplification has been done")
+                wronganswer = ""
 
         # print(totmarks)
         return int(marks)

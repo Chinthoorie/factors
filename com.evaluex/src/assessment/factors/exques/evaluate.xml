@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<question>
+	<math_expression >
+		<mrow>
+            <mi>x</mi>
+            <mo>+</mo>
+            <mfrac>
+                <mn>1</mn>
+                <mi>x</mi>
+            </mfrac>
+            <mo>=</mo>
+            <mn>3</mn>
+        </mrow>
+	</math_expression>
+    <phrase>எனின்</phrase>
+    <math_expression >
+		<mrow>
+            <msup>
+                <mi>x</mi>
+                <mn>2</mn>
+            </msup>
+            <mo>+</mo>
+            <mfrac>
+                <mn>1</mn>
+                <msup>
+                    <mi>x</mi>
+                    <mn>2</mn>
+                </msup>
+            </mfrac>
+        </mrow>
+	</math_expression>
+    <phrase>இன் பெருமானத்தைக் காண்க</phrase>
+</question>

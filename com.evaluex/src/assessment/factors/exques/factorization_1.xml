@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<question>
+	<phrase>காரணிகளைக் காண்க</phrase>
+	<math_expression >
+		<mrow>
+			<msup>
+				<mi>x</mi>
+				<mn>2</mn>
+  			</msup>
+  			<mo>+</mo>
+  			<mrow>
+   				<mn>3</mn>
+   				<mi>x</mi>
+  			</mrow>
+  			<mo>-</mo>
+  			<mn>10</mn>
+ 		</mrow>
+	</math_expression>
+</question>

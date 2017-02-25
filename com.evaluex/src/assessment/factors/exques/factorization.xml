@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rubric>
+	<type>Factors</type>
+	<sectionid>1</sectionid>
+	<question id="q01" totalMarks="2">
+		<sub_question id="q01-01" totalMarks="1" isProof="true">
+			<mark_set id="1">
+				<data required="true" isFinal="false" marks="1">
+					<phrase>යොදවන මුදල</phrase>
+					<math_expression unitCompulsory="false" >
+						<mn>600000</mn>
+						<mo>*</mo>
+						<mn>30</mn>
+						<mo>/</mo>
+						<mn>100</mn>
+					</math_expression>
+				</data>
+				<data required="true" isFinal="true" penalty="1">
+					<value unitCompulsory="true">
+						<preunit>s01-01</preunit>
+						<val>180000</val>
+					</value>
+				</data>
+			</mark_set>
+		</sub_question>
+	</question>
+</rubric>
+
