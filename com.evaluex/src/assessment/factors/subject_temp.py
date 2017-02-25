@@ -86,6 +86,7 @@ def solveQ(data,answer,ms,linenum):
         global isFinalAnswerCorrect
         global isStepIncorrect
         global incorrectStepNum
+        global totmarks
         # print(isPartiallyCorrect)
         marks = 0;
         listms = ms.split("\n")

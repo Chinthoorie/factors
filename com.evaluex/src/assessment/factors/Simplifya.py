@@ -56,6 +56,9 @@ class Simplifya:
             if simplify(sympify(answer)+sympify(expression)) == 0:
                 print("Answer is negated")
                 print("Incorrect\nMarks = " + str(marks))
+            elif answer.find(str(simplify(sympify(answer)+sympify(expression)/2))) :
+                print("Sign of "+ str(sympify(str(expression)+"-("+str(simplify(sympify(answer)+sympify(expression)))+")/2"))+" is negated in the answer")
+                print("Incorrect\nMarks = " + str(marks))
             else:
                 print("Incorrect\nMarks = " + str(marks))
 

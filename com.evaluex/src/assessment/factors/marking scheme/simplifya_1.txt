@@ -1,1 +1,1 @@
-right answer , marks = 2
+right answer , marks = 1

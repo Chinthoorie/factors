@@ -1,3 +1,4 @@
-step 1 : square -> x/y + y/x
-step 2 : substitute values -> (x/y) + (y/x) = 3, marks = 1
+step 1 : square -> x/y + y/x = 3 , marks = 0
+step 2 : expansion , marks = 1
 step 3 : subject -> (x/y)**2 + (y/x)**2 , marks = 1
+totalmarks = 2

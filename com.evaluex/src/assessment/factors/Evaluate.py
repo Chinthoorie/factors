@@ -23,7 +23,7 @@ class Evaluate:
             answer = "\n".join(line.rstrip() for line in filein)
 
         filein.close()
-        with open('marking scheme/evaluate_4.txt') as filein:
+        with open('marking scheme/evaluate_3.txt') as filein:
             ms = "\n".join(line.rstrip() for line in filein)
 
         filein.close()
