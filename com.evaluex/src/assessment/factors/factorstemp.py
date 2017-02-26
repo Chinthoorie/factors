@@ -118,7 +118,7 @@ class Factorize:
 
 def solve(data,answer,ms,linenum):
 
-        print("\nline "+str(linenum+1)+" :")
+        print("\nStep "+str(linenum+1)+" :")
 
         global isPartiallyCorrect
         global isFinalAnswerCorrect
@@ -173,7 +173,7 @@ def solve(data,answer,ms,linenum):
 
 
         if isStepIncorrect == true:
-            print("This line is not marked due to the error in line " + str(incorrectStepNum) + "\nMarks = 0")
+            print("This step is not marked due to the error in step " + str(incorrectStepNum) + "\nMarks = 0")
         elif answer.find(',') != -1:
             #  x-2,x+5
             if answer.find('(') == -1:
@@ -202,6 +202,7 @@ def solve(data,answer,ms,linenum):
                     wronganswer = ""
                 else:
                     wronganswer = answer
+                    check = 3
                     # print("Incorrect\nMarks = " + str(marks))
         # (x-2)*(x+5)
         elif answer.find('*') != -1:
@@ -217,6 +218,7 @@ def solve(data,answer,ms,linenum):
                 wronganswer = answer
             else:
                 wronganswer = answer
+
                 # print("Incorrect\nMarks = " + str(marks))
         # (x-2)(x+5)
         elif answer.find(')(') != -1:
@@ -335,14 +337,33 @@ def solve(data,answer,ms,linenum):
 
         lista = []
         if wronganswer != "" :
+
             lista = wronganswer.replace("+", " +").replace("-", " -").split(" ")
+            # lista1 = []
+            # if wronganswer.find("/") != -1:
+            #     ele = wronganswer.split("/")
+            #     divisor = ele[1]
+            #     if divisor.isdigit() == true :
+            #         for x in lista:
+            #             lista1.append(sympify(x.replace("(","").replace(")","")+"/("+divisor+")"))
+            #         lista = lista1
+
             if len(lista) != 4 :
                 check = 2
 
         if wronganswer != "" and check ==0 and len(lista) == 4:
             answerb = wronganswer
+            lista = wronganswer.replace("+", " +").replace("-", " -").split(" ")
+            lista1 = []
+            if wronganswer.find("/") != -1:
+                ele = wronganswer.split("/")
+                divisor = ele[1]
+                if divisor.isdigit() == true:
+                    for x in lista:
+                        lista1.append(sympify(x.replace("(", "").replace(")", "") + "/(" + divisor + ")"))
+                    lista = lista1
 
-            lista = answerb.replace("+", " +").replace("-", " -").split(" ")
+            # lista = answerb.replace("+", " +").replace("-", " -").split(" ")
             # print(lista)
 
             listq = str(factor(sympify(data))).replace("(", "").replace(")", "").split("*")
@@ -400,6 +421,8 @@ def solve(data,answer,ms,linenum):
                 c = c3
             elif c4.find("/") == -1:
                 c = c4
+            else :
+                c = ""
             # print(c)
 
             if c.find('*') != -1:
@@ -442,7 +465,7 @@ def solve(data,answer,ms,linenum):
             if wronganswer != "":
                 if sympify(wronganswer) == sympify(data):
                     if sympify(wronganswer,evaluate=False) == sympify(data) :
-                        print("Data")
+                        print("Re-written the expression")
                     else:
                         print("No useful simplification has been done")
                     wronganswer =""
@@ -467,7 +490,7 @@ def solve(data,answer,ms,linenum):
         if wronganswer != "" and check == 2:
             if sympify(wronganswer) == sympify(data):
                 if len(str(sympify(wronganswer, evaluate=False)).replace(" ","")) == len(str(sympify(data)).replace(" ","")):
-                    print("Data")
+                    print("Re-written the expression")
                 else:
                     print("No useful simplification has been done")
                 wronganswer = ""

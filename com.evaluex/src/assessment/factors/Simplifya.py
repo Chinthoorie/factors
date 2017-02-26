@@ -43,10 +43,12 @@ class Simplifya:
         # print_mathml(x+2)
         expression = simplify(sympify(data))
         # print(expression)
-        ans = simplify(sympify(answer))
+        if answer != "" :
+            ans = simplify(sympify(answer))
 
-
-        if answer.replace(" ","") == str(expression).replace(" ",""):
+        if answer == "":
+            print("You have not answered the question.\nMarks = "+str(marks))
+        elif answer.replace(" ","") == str(expression).replace(" ",""):
             marks = listms[1]
             print("Correct \nMarks = " + marks)
         elif ans == expression and len(answer.replace(" ","")) == len(str(expression).replace(" ","")):
@@ -56,8 +58,24 @@ class Simplifya:
             if simplify(sympify(answer)+sympify(expression)) == 0:
                 print("Answer is negated")
                 print("Incorrect\nMarks = " + str(marks))
-            elif answer.find(str(simplify(sympify(answer)+sympify(expression)/2))) :
-                print("Sign of "+ str(sympify(str(expression)+"-("+str(simplify(sympify(answer)+sympify(expression)))+")/2"))+" is negated in the answer")
+            # elif answer.find(str(simplify(sympify(answer)+sympify(expression)/2))) != -1 :
+            # elif simplify(simplify(sympify(str(sympify(str(expression)))+"-("+str(simplify(simplify(sympify(answer)+sympify(expression))/2))+")")) + sympify(str(sympify(str(expression)+"-("+str(simplify(sympify(answer)+sympify(expression)))+")/2")))) == 0 :
+            elif solve(sympify(answer),simplify(sympify(answer)+sympify(expression)/2)) == solve(sympify(expression),simplify(sympify(answer)+sympify(expression)/2)) :
+                coeffx = sympify(answer).coeff(sympify(str(expression)+"-("+str(simplify(sympify(answer)+sympify(expression)))+")/2"))
+                anscount = str(simplify(sympify(answer))).replace(" ","").replace("+"," +").replace("-"," -").split(" ")
+                expcount = str(simplify(sympify(expression))).replace(" ","").replace("+"," +").replace("-"," -").split(" ")
+
+                # if len(anscount) == len (expcount):
+                #     print("Simplification is wrong")
+                #     # print(" "+ str(sympify(str(expression)+"-("+str(simplify(sympify(answer)+sympify(expression)))+")/2")*(-1))+" in the answer should be "+str(sympify(str(expression)+"-("+str(simplify(sympify(answer)+sympify(expression)))+")/2")))
+                # # print(" " + str(coeffx) + " in the answer should be " + str(
+                # #     sympify(str(expression) + "-(" + str(simplify(sympify(answer) + sympify(expression))) + ")/2") * (
+                # #     -1)))
+                # elif len (expcount) >len(anscount):
+                #     print("Some variables are missing in your simplification")
+                # else :
+                #     print("Additional variables are present in your answer")
+                print("Simplification is wrong")
                 print("Incorrect\nMarks = " + str(marks))
             else:
                 print("Incorrect\nMarks = " + str(marks))

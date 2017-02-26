@@ -157,7 +157,7 @@ class Evaluate:
         print("-----------------------------------------------")
 
 def solveQ(data,answer,ms,linenum):
-        print("\nline " + str(linenum + 1) + " :")
+        print("\nStep " + str(linenum + 1) + " :")
         global isPartiallyCorrect
         global isFinalAnswerCorrect
         global isStepIncorrect
@@ -232,7 +232,7 @@ def solveQ(data,answer,ms,linenum):
 
         if isStepIncorrect ==  true:
             not_in_gen_ans = false
-            print("Error : This line is not marked due to the error in line " + str(incorrectStepNum) + "\nMarks = 0")
+            print("Error : This step is not marked due to the error in step " + str(incorrectStepNum) + "\nMarks = 0")
         elif listgenanslhs.__contains__(anslhs):
             not_in_gen_ans = false
             if sympify(ansrhs) == sympify(listgenansrhs[listgenanslhs.index(anslhs)]):
@@ -246,7 +246,7 @@ def solveQ(data,answer,ms,linenum):
                 elif listgenansconcept[listgenanslhs.index(anslhs)] == "subject":
                     if linenum + 1 == lines and ansrhs == listgenansrhs[len(listgenansrhs) - 1]:
                         if gotFinalAnswer == true:
-                            print("Already obtained the final answer in line " + str(finAnsLine))
+                            print("Already obtained the final answer in step " + str(finAnsLine))
                         else:
                             marks  = subjectMarks
                             print("Final answer is Correct.\nMarks = "+ str(marks))
@@ -254,19 +254,19 @@ def solveQ(data,answer,ms,linenum):
                             finAnsLine = linenum + 1
                     elif linenum + 1 == lines and ansrhs != listgenansrhs[len(listgenansrhs) - 1]:
                         if gotFinalAnswer == true:
-                            print("Already obtained the final answer in line " + str(finAnsLine))
+                            print("Already obtained the final answer in step " + str(finAnsLine))
                         else:
                             print("Final answer is not simplified")
                     elif linenum + 1 != lines and ansrhs == listgenansrhs[len(listgenansrhs) - 1]:
                         if gotFinalAnswer == true:
-                            print("Already obtained the final answer in line " + str(finAnsLine))
+                            print("Already obtained the final answer in step " + str(finAnsLine))
                         else:
                             print("Final answer is correct")
                             gotFinalAnswer = true
                             finAnsLine = linenum + 1
                     else:
                         if gotFinalAnswer == true:
-                            print("Already obtained the final answer in line " + str(finAnsLine))
+                            print("Already obtained the final answer in step " + str(finAnsLine))
                         else:
                             print("Answer can be further simplified")
                     # print("dd")
@@ -279,10 +279,10 @@ def solveQ(data,answer,ms,linenum):
                     else:
                         if gotFinalAnswer == true:
                             print("Step is correct")
-                            print("Already obtained the final answer in line " + str(finAnsLine))
+                            print("Already obtained the final answer in step " + str(finAnsLine))
                         else:
                             print("Step is correct")
-                            print("Marks for expansion of terms has been provided at line " + str(expansionStepNum))
+                            print("Marks for expansion of terms has been provided in step " + str(expansionStepNum))
                     wronganswer = ""
                     # print("cc")
                 else:
@@ -343,10 +343,10 @@ def solveQ(data,answer,ms,linenum):
                             else:
                                 if gotFinalAnswer ==  true :
                                     print("Step is correct")
-                                    print("Already obtained the final answer in line "+str(finAnsLine))
+                                    print("Already obtained the final answer in step "+str(finAnsLine))
                                 else :
                                     print("Step is correct")
-                                    print("Marks for expansion of terms has been provided at line "+ str(expansionStepNum))
+                                    print("Marks for expansion of terms has been provided in step "+ str(expansionStepNum))
                             # print("cc2")
                         break
                     else :
@@ -396,7 +396,7 @@ def solveQ(data,answer,ms,linenum):
                 incorrectStepNum = linenum + 1
                 print("Error : Step is incorrect")
             else:
-                print("Error : This line is not marked due to the error in line " + str(incorrectStepNum) + "\nMarks = 0")
+                print("Error : This step is not marked due to the error in step " + str(incorrectStepNum) + "\nMarks = 0")
 
         # if gotFinalAnswer and (isSquare or isExpansion) and totmarks == totalmarks -(expansionMarks+subjectMarks):
         #     marks = marks + expansionMarks

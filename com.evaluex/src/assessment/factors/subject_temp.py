@@ -15,16 +15,22 @@ class Subject:
     isFinalAnswerCorrect = false
     isStepIncorrect = false
     incorrectStepNum = 0
+    partMarkLine = 0
+    finalMarkLine = 0
     def get(self):
-        with open('questions/subject_1.txt') as filein:
+
+        # questions/subject_1.txt
+        # answers/subject_1_3.txt
+        # questions/trainingset/subject/q3.txt
+        # answers/trainingset/subject/q3/a2.txt
+
+
+        with open('questions/trainingset/subject/q3.txt') as filein:
             data = "".join(line.rstrip() for line in filein)
 
         filein.close()
 
-        # listq = data.split(",")
-        # answer = input("Change " + listq[1] + " the subject of " + listq[0] + "\n")
-
-        with open('answers/subject_1_3.txt') as filein:
+        with open('answers/trainingset/subject/q3/a4.txt') as filein:
             answer = "\n".join(line.rstrip() for line in filein)
 
         filein.close()
@@ -38,11 +44,15 @@ class Subject:
         global isFinalAnswerCorrect
         global isStepIncorrect
         global incorrectStepNum
+        global partMarkLine
+        global finalMarkLine
 
         isPartiallyCorrect = false
         isFinalAnswerCorrect = false
         isStepIncorrect = false
         incorrectStepNum = 0
+        partMarkLine = 0
+        finalMarkLine = 0
 
         marks = 0;
         listms = ms.split("\n")
@@ -51,18 +61,16 @@ class Subject:
         listms1 = ms1.split("=")
         marks1 = listms1[1]
 
-        # ms2 = listms[1]
-        # listms2 = ms2.split("=")
-        # marks2 = listms2[1]
-
         if len(listms) == 3:
             ms3 = listms[2]
             if ms3 != "":
                 listms3 = ms3.split("=")
                 marks3 = listms3[1]
 
-        listans = answer.replace(" ", "").split("\n")
-        # print(isPartiallyCorrect)
+        if answer != "" :
+            listans = answer.replace(" ", "").split("\n")
+        else :
+            listans = []
 
         print("\nQuestion : " + data + "\n")
         print("Student answer : " + answer + "\n")
@@ -70,23 +78,27 @@ class Subject:
 
         global totmarks
         totmarks = 0
-        for line in listans:
-            gotmarks = solveQ(data,line,ms,listans.index(line))
-            totmarks = gotmarks + totmarks
+        if answer == "":
+            print("You have not answered the question.\nMarks = " + str(marks))
+        else:
+            for line in listans:
+                gotmarks = solveQ(data,line,ms,listans.index(line))
+                totmarks = gotmarks + totmarks
 
-        # if totmarks>int(marks1):
-        #     totmarks = int(marks1)
         print("\n\nTotal marks = " + str(totmarks) + " out of " + str(marks1))
         print("-----------------------------------------------")
 
 
 def solveQ(data,answer,ms,linenum):
-        print("\nline " + str(linenum + 1) + " :")
+        print("\nStep " + str(linenum + 1) + " :")
         global isPartiallyCorrect
         global isFinalAnswerCorrect
         global isStepIncorrect
         global incorrectStepNum
         global totmarks
+        global partMarkLine
+        global finalMarkLine
+
         # print(isPartiallyCorrect)
         marks = 0;
         listms = ms.split("\n")
@@ -111,53 +123,76 @@ def solveQ(data,answer,ms,linenum):
         question = data.split(",")
         qequation = question[0].replace(" ", "")
         listequ = qequation.split("=")
+        queslhs = listequ[0]
+        quesrhs = listequ[1]
         stlhs = question[1].replace(" ", "")
 
-        answers = answer.split("=")
-        anslhs = answers[0].replace(" ", "")
-        ansrhs = answers[1].replace(" ", "")
+        if answer != "":
+            answers = answer.split("=")
+            anslhs = answers[0].replace(" ", "")
+            ansrhs = answers[1].replace(" ", "")
+        else :
+            answers = []
+            anslhs = ""
+            ansrhs = ""
 
         wronganswer = ""
 
-        coeffanslhs = sympify(str(listequ[0] + "-(" + listequ[1] + ")")).coeff(sympify(anslhs))
+        coeffanslhs = sympify(str(queslhs + "-(" + quesrhs + ")")).coeff(sympify(anslhs))
 
         if isStepIncorrect == true :
             # print("Correct the error in line "+ str(incorrectStepNum) +" to get full marks")
-            print("This line is not marked due to the error in line "+str(incorrectStepNum)+"\nMarks = 0")
+            print("This step is not marked due to the error in step "+str(incorrectStepNum)+"\nMarks = 0")
         elif anslhs == stlhs:
             # if str(simplify(sympify(listq0[1].replace(listq[1],lista[1]).replace(" ","")))) == listq0[0].replace(" ","") :
-            exp = str(simplify(sympify(sympify(listequ[1]).subs(stlhs, ansrhs))))
-            if exp == listequ[0].replace(" ", ""):
+            exp = str(simplify(sympify(sympify(quesrhs).subs(stlhs, ansrhs))))
+            exp1 = sympify(str(solve(queslhs + "-(" + quesrhs + ")", stlhs)).replace("[", "").replace("]", ""))
+            if exp1 == sympify(ansrhs):
+                # print("Correct")
                 if isFinalAnswerCorrect == false:
                     marks = int(marks1) - totmarks
+                    finalMarkLine = linenum
+                    print("Final answer is correct \nMarks = " + str(marks))
                 else:
-                    print("Already provided the marks for the final answer in earlier steps")
-                print("Final answer is correct \nMarks = " + str(marks))
+                    print("Step is correct.\nAlready provided the marks for the final answer in step "+str(finalMarkLine+1))
+
+                isFinalAnswerCorrect = true
+
+            elif exp == queslhs.replace(" ", ""):
+                if isFinalAnswerCorrect == false:
+                    marks = int(marks1) - totmarks
+                    finalMarkLine = linenum
+                    print("Final answer is correct \nMarks = " + str(marks))
+                else:
+                    print("Step is correct.\nAlready provided the marks for the final answer in step "+str(finalMarkLine+1))
                 isFinalAnswerCorrect = true
             # else:
             #     print("Incorrect\nMarks = " + str(marks))
-            elif anslhs != listequ[0]:
-                if listequ[0].find(str("-" + stlhs)) != -1:
+            elif anslhs != queslhs:
+                if queslhs.find(str("-" + stlhs)) != -1:
                     if sympify(ansrhs) == sympify(
-                            str(solve(listequ[0] + "-(" + listequ[1] + ")", stlhs)).replace("[", "").replace("]", "")):
+                            str(solve(queslhs + "-(" + quesrhs + ")", stlhs)).replace("[", "").replace("]", "")):
                         if isFinalAnswerCorrect == false:
                             marks = int(marks1) - totmarks
+                            finalMarkLine = linenum
+                            print("Final answer is correct \nMarks = " + str(marks))
                         else:
-                            print("Already provided the marks for the final answer in earlier steps")
-                        print("Final answer is correct \nMarks = " + str(marks))
+                            print("Step is correct.\nAlready provided the marks for the final answer in step "+str(finalMarkLine+1))
+                        # print("Final answer is correct \nMarks = " + str(marks))
                         isFinalAnswerCorrect = true
                     else:
                         # print("Incorrect\nMarks = " + str(marks))
                         wronganswer = answer
 
-                elif listequ[1].find(str("-" + stlhs)) != -1:
+                elif quesrhs.find(str("-" + stlhs)) != -1:
                     if sympify(ansrhs) == sympify(
-                            str(solve(listequ[1] + "-(" + listequ[0] + ")", stlhs)).replace("[", "").replace("]", "")):
+                            str(solve(quesrhs + "-(" + queslhs + ")", stlhs)).replace("[", "").replace("]", "")):
                         if isFinalAnswerCorrect == false:
                             marks = int(marks1) - totmarks
+                            finalMarkLine = linenum
+                            print("Final answer is correct \nMarks = " + str(marks))
                         else:
-                            print("Already provided the marks for the final answer in earlier steps")
-                        print("Final answer is correct \nMarks = " + str(marks))
+                            print("Step is correct.\nAlready provided the marks for the final answer in step " + str(finalMarkLine + 1))
                         isFinalAnswerCorrect = true
                     else:
                         wronganswer = answer
@@ -172,13 +207,7 @@ def solveQ(data,answer,ms,linenum):
                     #     incorrectStepNum = linenum+1
                     # isStepIncorrect = true
 
-            # elif simplify(sympify(ansrhs) - sympify(
-            #                 str(solve(listequ[0] + "-(" + listequ[1] + ")", stlhs)).replace("[", "").replace("]", ""))) == 0:
-            #     print("RHS is negated")
-            #     print("Incorrect\nMarks = " + str(marks))
-            #     if isStepIncorrect == false:
-            #         incorrectStepNum = linenum + 1
-            #     isStepIncorrect = true
+
             else:
                 wronganswer = answer
                 # print("Incorrect\nMarks = " + str(marks))
@@ -186,29 +215,37 @@ def solveQ(data,answer,ms,linenum):
                 #     incorrectStepNum = linenum + 1
                 # isStepIncorrect = true
 
-        # listqf = listq[0].replace("'","").replace(" ","").split("+")
-        # else:
-        #     listqf = listq[0].replace("'", "").replace(" ","").split("-")
-        #
 
-        # print(solve(listequ[1]+"-"+listequ[0],stlhs))
-        elif sympify(str(solve(listequ[0]+"-("+listequ[1]+")",anslhs)).replace("[", "").replace("]", "")) == sympify(ansrhs):
-                        # sympify(str(solve(listequ[0]+"-("+listequ[1]+")",anslhs)).replace("[", "").replace("]", "")) == sympify(ansrhs):
+        # print(solve(quesrhs+"-"+queslhs,stlhs))
+        elif sympify(str(solve(queslhs+"-("+quesrhs+")",anslhs)).replace("[", "").replace("]", "")) == simplify(expand(sympify(ansrhs))):
+                        # sympify(str(solve(queslhs+"-("+quesrhs+")",anslhs)).replace("[", "").replace("]", "")) == sympify(ansrhs):
             # print(isPartiallyCorrect)
-            if simplify(sympify(listequ[0]+"-("+listequ[1]+")")) == simplify(sympify(str(anslhs+"-("+ansrhs+")").replace(" ","")))*coeffanslhs :
+
+            if simplify(sympify(queslhs+"-("+quesrhs+")")) == simplify(sympify(str(anslhs+"-("+ansrhs+")").replace(" ","")))*coeffanslhs and coeffanslhs != 1:
                 if isPartiallyCorrect == false:
                     marks = marks2
+                    partMarkLine = linenum
+                    print("Partially correct \nMarks = " + str(marks))
                 else:
-                    print("Already provided the marks for partial correctness in earlier steps")
-                print("Partially correct \nMarks = " +str(marks))
+                    print("Step is correct.\nAlready provided the marks for partial correctness in step " + str(partMarkLine + 1))
                 isPartiallyCorrect = true
+            elif simplify(sympify(queslhs+"-("+quesrhs+")")) == simplify(sympify(str(anslhs+"-("+ansrhs+")").replace(" ","")))*coeffanslhs and coeffanslhs == 1:
+                print("Re-written the given formula")
             else:
                 wronganswer = answer
-
-            # if sympify(ansrhs) == sympify(
-            #         str(solve(listequ[1] + "-(" + listequ[0] + ")", stlhs)).replace("[", "").replace("]", "")):
-            #     marks = int(marks1)-totmarks
-            #     print("Final answer is correct \nMarks = " + str(marks))
+        elif sympify(str(solve(queslhs+"-("+quesrhs+")",anslhs)).replace("[", "").replace("]", "")) == simplify(sympify(ansrhs)):
+            if simplify(sympify(queslhs+"-("+quesrhs+")")) == simplify(sympify(str(anslhs+"-("+ansrhs+")").replace(" ","")))*coeffanslhs and coeffanslhs != 1:
+                if isPartiallyCorrect == false:
+                    marks = marks2
+                    partMarkLine = linenum
+                    print("Partially correct \nMarks = " + str(marks))
+                else:
+                    print("Step is correct.\nAlready provided the marks for partial correctness in step " + str(partMarkLine + 1))
+                isPartiallyCorrect = true
+            elif simplify(sympify(queslhs+"-("+quesrhs+")")) == simplify(sympify(str(anslhs+"-("+ansrhs+")").replace(" ","")))*coeffanslhs and coeffanslhs == 1:
+                print("Re-written the given formula")
+            else:
+                wronganswer = answer
         else:
             wronganswer = answer
             # print("Incorrect\nMarks = " + str(marks))
@@ -217,22 +254,23 @@ def solveQ(data,answer,ms,linenum):
             # isStepIncorrect = true
 
         if wronganswer != "":
-            if sympify(str(solve(listequ[0]+"-("+listequ[1]+")",anslhs)).replace("[", "").replace("]", "")) == sympify(ansrhs):
+            if sympify(str(solve(queslhs+"-("+quesrhs+")",anslhs)).replace("[", "").replace("]", "")) == sympify(ansrhs):
                 if isPartiallyCorrect == false:
                     marks = marks2
+                    partMarkLine = linenum
+                    print("Partially correct \nMarks = " + str(marks))
                 else:
-                    print("Already provided the marks for partial correctness in earlier steps")
-                print("Partially correct \nMarks = " + str(marks))
+                    print("Step is correct.\nAlready provided the marks for partial correctness in step "+str(partMarkLine+1))
                 isPartiallyCorrect = true
             # elif simplify(sympify(ansrhs) + sympify(
-            #                 str(solve(listequ[0] + "-(" + listequ[1] + ")", stlhs)).replace("[", "").replace("]", ""))) == 0:
+            #                 str(solve(queslhs + "-(" + quesrhs + ")", stlhs)).replace("[", "").replace("]", ""))) == 0:
             #     print("RHS is negated")
             #     print("Incorrect\nMarks = " + str(marks))
             #     if isStepIncorrect == false:
             #         incorrectStepNum = linenum + 1
             #     isStepIncorrect = true
             elif simplify(sympify(ansrhs) + sympify(
-                            str(solve(listequ[0] + "-(" + listequ[1] + ")", anslhs)).replace("[", "").replace("]", ""))) == 0:
+                            str(solve(queslhs + "-(" + quesrhs + ")", anslhs)).replace("[", "").replace("]", ""))) == 0:
                 print("RHS is negated")
                 print("Incorrect\nMarks = " + str(marks))
                 if isStepIncorrect == false:
@@ -243,10 +281,6 @@ def solveQ(data,answer,ms,linenum):
                 if isStepIncorrect == false:
                     incorrectStepNum = linenum + 1
                 isStepIncorrect = true
-
-
-
-        # print(sympify(str(listequ[0]+"-("+listequ[1]+")")).coeff(sympify(anslhs)))
 
 
         return int(marks)
