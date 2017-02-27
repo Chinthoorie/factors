@@ -25,12 +25,12 @@ class Subject:
         # answers/trainingset/subject/q3/a2.txt
 
 
-        with open('questions/trainingset/subject/q3.txt') as filein:
+        with open('questions/subject_4.txt') as filein:
             data = "".join(line.rstrip() for line in filein)
 
         filein.close()
 
-        with open('answers/trainingset/subject/q3/a4.txt') as filein:
+        with open('answers/subject_4_1.txt') as filein:
             answer = "\n".join(line.rstrip() for line in filein)
 
         filein.close()

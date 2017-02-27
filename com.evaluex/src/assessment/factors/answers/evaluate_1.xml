@@ -3,14 +3,11 @@
     <mrow>
         <mrow>
             <mfrac>
-                <mi>x</mi>
+                <mi>1</mi>
                 <mi>y</mi>
             </mfrac>
         <mo>+</mo>
-        <mfrac>
-            <mi>y</mi>
-            <mi>x</mi>
-        </mfrac>
+        <mi>y</mi>
         </mrow>
         <mo>=</mo>
         <mn>3</mn>
@@ -22,14 +19,11 @@
                 <mo>(</mo>
                 <mrow>
                     <mfrac>
-                        <mi>x</mi>
+                        <mi>1</mi>
                         <mi>y</mi>
                     </mfrac>
                     <mo>+</mo>
-                    <mfrac>
-                        <mi>y</mi>
-                        <mi>x</mi>
-                    </mfrac>
+                    <mi>y</mi>
                 </mrow>
                 <mo>)</mo>
             </mrow>

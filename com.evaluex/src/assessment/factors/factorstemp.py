@@ -177,7 +177,7 @@ def solve(data,answer,ms,linenum):
         elif answer.find(',') != -1:
             #  x-2,x+5
             if answer.find('(') == -1:
-                if sympify(str(answer.split(",")).replace(" ","").replace("','", ")*(").replace("['","(").replace("']",")")) == factor(sympify(listq[0])):
+                if sympify(str(answer.split(",")).replace(" ","").replace("','", ")*(").replace("['","(").replace("']",")")) == factor(sympify(data)):
                     marks = int(marks1) - totmarks
                     if isFinalAnswerCorrect == false:
                         marks = int(marks1) - totmarks
@@ -293,6 +293,16 @@ def solve(data,answer,ms,linenum):
                 if answer.find("(" + ele.replace(" ", "") + ")") != -1:
                     listqq.append(ele)
             for ele in listqq:
+                ss1 = []
+                ss2 = []
+                answer = answer.replace(" ", "")
+                for c in answer:
+                    ss1.append(c)
+                for a in ss1:
+                    ss2.append(ss1.index(a))
+                # print(ss1)
+                # print(ss2)
+                # sympify(answer).subs()
                 if answer.find("("+ele.replace(" ", "")+")") != -1:
                     g = answer.replace(ele.replace(" ", ""),str(1))
                     g = simplify(sympify(g))
@@ -447,20 +457,7 @@ def solve(data,answer,ms,linenum):
                 else:
                     wronganswer = answer
 
-            # index = 0
-            remainder = simplify(sympify(data)-sympify(answer))
-            # print(remainder)
-            remainder = remainder/2
-            # print(remainder)
-            # print(sympify(remainder)*(-1))
 
-            # if lista.__contains__(str(sympify(remainder)*(-1))) == true:
-            #     print("has")
-            #     index=lista.index(remainder*-1)
-            #     print(index)
-            #     if simplify(sympify(lista[index]) +sympify(remainder)) == 0:
-            #         print("Sign of "+str(remainder).replace("-","+")+" is negated ")
-            #
 
             if wronganswer != "":
                 if sympify(wronganswer) == sympify(data):
@@ -471,6 +468,8 @@ def solve(data,answer,ms,linenum):
                     wronganswer =""
 
             if wronganswer != "":
+                remainder = simplify(sympify(data) - sympify(answer))
+                remainder = remainder / 2
                 for element in lista:
                     if sympify(element) == sympify(remainder)*(-1):
                         # print(element)

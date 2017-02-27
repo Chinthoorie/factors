@@ -79,10 +79,10 @@ class Evaluate:
         marks = 0;
         listms = ms.split("\n")
         # print(listms)
-        ms1 = listms[0]
-        ms2 = listms[1]
-        ms3 = listms[2]
-        ms4 = listms[3].replace(" ","").split("=")
+        ms1 = listms[1]
+        ms2 = listms[2]
+        ms3 = listms[3]
+        ms4 = listms[0].replace(" ","").split("=")
 
         listms1 = ms1.split(",")
         listms11 = listms1[1].split("=")
