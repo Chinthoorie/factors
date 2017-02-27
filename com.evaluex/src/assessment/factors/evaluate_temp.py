@@ -4,6 +4,7 @@ from pydoc import ispackage
 
 from sympy import *
 import re
+# from schemeread import Scheme
 
 
 class Evaluate:
@@ -32,11 +33,11 @@ class Evaluate:
 
         filein.close()
 
-        with open('answers/evaluate_3_1.txt') as filein:
+        with open('student_answer.txt') as filein:
             answer = "\n".join(line.rstrip() for line in filein)
 
         filein.close()
-        with open('marking scheme/evaluate_3.txt') as filein:
+        with open('markingschemetext.txt') as filein:
             ms = "\n".join(line.rstrip() for line in filein)
 
         filein.close()

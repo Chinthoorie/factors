@@ -1,0 +1,70 @@
+from bs4 import BeautifulSoup
+
+class Scheme():
+    #this method will run when create new instance of this class
+
+    #marking the student answer
+    def readScheme(self):
+        marksSQ = 0
+        marksEX = 0
+        marksSB = 0
+        expSQ = ""
+        expSB = ""
+        # open the scheme
+        file = open('markingschemetext.txt', 'w')
+        with open('msevaluate.xml') as scheme:
+            for line in scheme:
+                scheme_soup = BeautifulSoup(line, "html.parser")
+                if 'data' in line:
+                    tag = scheme_soup.find('data')
+                    if tag is not None:
+                        attribute1 = tag['marks']
+                        # print(attribute1)
+                        attribute2 = tag['concept']
+                        marks = int(attribute1)
+                        # attribute3 =
+
+                        if attribute2 == "square" :
+                            # marksSQ = marks
+                            # expSQ = tag ['expression']
+                            msline = "step : square -> "+ tag ['expression'] +" , marks = "+attribute1
+                            file.write(msline)
+                            file.write("\n")
+                        if attribute2 == "expansion":
+                            # marksSQ = marks
+                            # expSQ = tag ['expression']
+                            msline = "step : expansion , marks = " + attribute1
+                            file.write(msline)
+                            file.write("\n")
+                        if attribute2 == "subject":
+                            # marksSQ = marks
+                            # expSQ = tag ['expression']
+                            msline = "step : subject -> "+ tag ['expression'] +" , marks = "+attribute1
+                            file.write(msline)
+                            file.write("\n")
+
+                            # step 1: square -> 1 / y + y = 4, marks = 0
+                            # step 2: expansion, marks = 1
+                            # step 3: subject -> 1 / y ** 2 + y ** 2, marks = 1
+                            # totalmarks = 2
+
+
+
+                        #add the concept and marks pair to a dictionary
+                        # scheme_dict[attribute2] = marks
+
+                if 'sub_question' in line:
+                    tag = scheme_soup.find('sub_question')
+                    if tag is not None:
+                        attribute4 = tag['totalmarks']
+                        msline = "totalmarks = " + attribute4
+                        file.write(msline)
+                        file.write("\n")
+        # self.logger.info('Finish scheme reading')
+        # return scheme_dict
+        file.close()
+        # print(scheme_dict)
+        #no need to close the file with statement will handle that
+
+Scheme().readScheme()
+

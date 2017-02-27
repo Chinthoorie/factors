@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rubric>
+	<type>FactorsQuestion</type>
+	<sectionid>1</sectionid>
+	<question id="q01" totalMarks="3">
+		<sub_question id="q01-b" totalMarks="2" isProof="true">
+			<mark_set id="1">
+				<data required="true" isFinal="false" marks="0" concept="square" expression="1/y + y = 4">
+				</data>
+				<data required="true" isFinal="false" marks="1" concept="expansion">
+				</data>
+				<data required="true" isFinal="false" marks="1" concept="subject" expression="(1/y)**2 + y**2">
+				</data>
+			</mark_set>
+		</sub_question>
+	</question>
+</rubric>
