@@ -1,0 +1,4 @@
+totalmarks = 2
+step : square -> 1/y + y = 4 , marks = 0
+step : expansion , marks = 1
+step : subject -> (1/y)**2 + y**2 , marks = 1

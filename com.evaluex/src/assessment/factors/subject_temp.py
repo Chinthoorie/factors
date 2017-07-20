@@ -25,17 +25,17 @@ class Subject:
         # answers/trainingset/subject/q3/a2.txt
 
 
-        with open('questions/subject_4.txt') as filein:
+        with open('subject_1.txt') as filein:
             data = "".join(line.rstrip() for line in filein)
 
         filein.close()
 
-        with open('answers/subject_4_1.txt') as filein:
+        with open('subject_1_6.txt') as filein:
             answer = "\n".join(line.rstrip() for line in filein)
 
         filein.close()
 
-        with open('marking scheme/subject_1.txt') as filein:
+        with open('subjectms.txt') as filein:
             ms = "\n".join(line.rstrip() for line in filein)
 
         filein.close()

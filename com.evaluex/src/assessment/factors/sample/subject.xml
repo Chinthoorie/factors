@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+    <question>
+        <phrase>சூத்திரம்</phrase>
+        <expression>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <msup>
+                    <mi>v</mi>
+                    <mn>2</mn>
+                </msup>
+                <mo>=</mo>
+                <msup>
+                    <mi>u</mi>
+                    <mn>2</mn>
+                </msup>
+                <mo>+</mo>
+                <mn>2</mn>
+                <mi>a</mi>
+                <mi>s</mi>
+            </math>
+        </expression>
+        <phrase> இல் </phrase>
+        <expression> s </expression>
+        <phrase>ஐ எழுவாயாக்குக</phrase>
+    </question>
+
+
